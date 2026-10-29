@@ -44,7 +44,7 @@ const responses = {
         'oh oui oui oui, it is paris 🥖'
     ],
 
-    'whats the capital of france': [
+    'what does the cow say': [
         'oh moo moo moo, i speak that too 🐮'
     ]
 };
