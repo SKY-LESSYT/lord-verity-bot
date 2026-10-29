@@ -37,7 +37,11 @@ const responses = {
     'i got a question': questionReplies,
 
     'how do i join the server': [
-        'check <#1544091616468271215>!'
+        'check <#1544091616468271215 > !'
+    ],
+
+    'whats the capital of france': [
+        'oh oui oui oui, it is paris 🥖'
     ]
 };
 
