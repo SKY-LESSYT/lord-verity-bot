@@ -1,0 +1,13 @@
+{
+  "name": "lord-verity-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for Sky Garden",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.4.7"
+  }
+}
