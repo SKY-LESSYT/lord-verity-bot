@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 
 const {
@@ -8,6 +7,8 @@ const {
     PermissionFlagsBits
 } = require('discord.js');
 
+const { status } = require('minecraft-server-util');
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -15,6 +16,9 @@ const client = new Client({
         GatewayIntentBits.MessageContent
     ]
 });
+
+const MINECRAFT_SERVER = 'starsoul.industries';
+const CHECK_INTERVAL = (5 * 60) * 1000;
 
 const customCommands = {
     announce: {
@@ -37,7 +41,7 @@ const responses = {
     'i got a question': questionReplies,
 
     'how do i join the server': [
-        'check <#1544091616468271215 > !'
+        'check <#1544091616468271215>!'
     ],
 
     'whats the capital of france': [
@@ -49,14 +53,45 @@ const responses = {
     ]
 };
 
-client.once('ready', () => {
-    client.user.setActivity('🙂 Answering Questions', {
+// MINECRAFT SERVER STATUS
+let lastStatus = null;
+
+async function updateMinecraftStatus() {
+    let newStatus;
+
+    try {
+        const result = await status(MINECRAFT_SERVER, 25565, {
+            timeout: 5000
+        });
+
+        const playersOnline = result.players.online;
+
+        newStatus = `${playersOnline} Players online`;
+
+    } catch (error) {
+        newStatus = 'SMP Offline';
+    }
+
+    // Avoid unnecessary Discord presence updates
+    if (newStatus === lastStatus) return;
+
+    lastStatus = newStatus;
+
+    client.user.setActivity(newStatus, {
         type: ActivityType.Custom
     });
 
+    console.log(`Minecraft status updated: ${newStatus}`);
+}
+
+// BOT READY
+client.once('ready', async () => {
     console.log(`Logged in as ${client.user.tag}!`);
+    await updateMinecraftStatus();
+    setInterval(updateMinecraftStatus, CHECK_INTERVAL);
 });
 
+// AUTOMATIC REPLIES
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
 
@@ -80,7 +115,7 @@ client.on('messageCreate', async (message) => {
     }
 });
 
-
+// SLASH COMMANDS
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
 
@@ -133,8 +168,5 @@ client.on('interactionCreate', async (interaction) => {
     }
 });
 
-// ========================================
 // LOGIN
-// ========================================
-
 client.login(process.env.DISCORD_TOKEN);
