@@ -19,6 +19,7 @@ const client = new Client({
 
 const MINECRAFT_SERVER = 'starsoul.industries';
 const CHECK_INTERVAL = (5 * 60) * 1000;
+const FLETCHER_GIF = "https://tenor.com/view/whiplash-gif-9431479052148052111";
 
 const customCommands = {
     announce: {
@@ -50,7 +51,10 @@ const responses = {
 
     'what does the cow say': [
         'oh moo moo moo, i speak that too 🐮'
-    ]
+    ],
+
+    'mod name': [FLETCHER_GIF],
+    'mod name?': [FLETCHER_GIF],
 };
 
 // MINECRAFT SERVER STATUS
