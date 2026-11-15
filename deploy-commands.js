@@ -8,6 +8,12 @@ const commands = [
         .setName('announce')
         .setDescription('Send the predetermined announcement')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .toJSON(),
+
+    new SlashCommandBuilder()
+        .setName('mcinfo')
+        .setDescription('Tell people how to join the server')
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .toJSON()
 ];
 
